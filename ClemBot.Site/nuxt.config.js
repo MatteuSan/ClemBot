@@ -12,7 +12,7 @@ console.log(process.env.DISCORD_CLIENT_ID)
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  //ssr: false,
+  // ssr: false,
 
   server: {
     port: 3000, // default: 3000
@@ -22,7 +22,7 @@ export default {
   publicRuntimeConfig: {
     discordClientId: process.env.DISCORD_CLIENT_ID,
     oauthPermissions: process.env.OAUTH_PERMISSIONS,
-    defaultPrefix: process.env.DEFAULT_PREFIX
+    defaultPrefix: process.env.DEFAULT_PREFIX,
   },
   privateRuntimeConfig: {
     discordClientSecret: process.env.DISCORD_CLIENT_SECRET,
@@ -85,10 +85,10 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components:  [
+  components: [
     '~/components',
     { path: '~/components/support', extensions: ['vue'] },
-    { path: '~/components/dashboard', extensions: ['vue'] }
+    { path: '~/components/dashboard', extensions: ['vue'] },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
