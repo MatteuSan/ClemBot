@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use '../env';
+
+$breakpoints: env.$breakpoints;
+
+/// Wraps styles around a consistent breakpoint value.
+/// @param {string} $query
+/// @param {string} $context
+/// @return {*} mixin result.
+@mixin breakpoint($query, $context: 'min') {
+  @media (#{$context}-width: _sanitize-value($query, $context)) {
+    @content;
+  }
+}
+
+/// Sanitizes the breakpoint value based on context.
+/// @param {string} $query
+/// @param {string} $context
+/// @return {number} valid media query value.
+@function _sanitize-value($query, $context) {
+  $bp-map: map.get($breakpoints, $query);
+
+  @if not $context == 'min' or not $context == 'max' {
+    @error "Invalid context query: #{$context}. Please only choose between 'min' and 'max'.";
+  }
+
+  @if $context == 'max' {
+    @return $bp-map - 1;
+  } @else {
+    @return $bp-map;
+  }
+}

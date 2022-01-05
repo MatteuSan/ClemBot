@@ -1,0 +1,32 @@
+$colors: (
+  primary: (
+    'light': #7958f8,
+    'default': #6639f1,
+    'dark': #2b1366,
+    'ink': #fff,
+  ),
+  secondary: (
+    'light': #92e3ff,
+    'default': #00cbff,
+    'dark': #006987,
+    'ink': #001015,
+  ),
+  surface: (
+    'light': #343434,
+    'default': #232323,
+    'dark': #181818,
+    'ink': #fff,
+  )
+);
+
+$breakpoints: (
+  'sm': 320px,
+  'md': 640px,
+  'lg': 877px
+);
+
+$header-sizes: (
+  1: 32rem,
+  2: 24rem,
+  3: 16rem
+)
