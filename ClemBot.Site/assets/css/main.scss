@@ -1,123 +1,49 @@
-// Import Bulma's core
-@import '~bulma/sass/utilities/_all';
-@import '~@creativebulma/bulma-divider';
+@use '~@matteusan/sentro' with ($prefix: 'clm', $context: 'token');
+@use 'env';
 
-// Set your colors
-$primary: #8c67ef;
-$primary-light: findLightColor($primary);
-$primary-dark: findDarkColor($primary);
-$primary-invert: findColorInvert($primary);
+// @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500;700&display=swap');
 
-// Lists and maps
-$custom-colors: null !default;
-$custom-shades: null !default;
+:root {
+  @include sentro.token-add($map: env.$colors);
+}
 
-$scheme-main: #272727;
-//$scheme-main: #36393F;
-$primary: #7937b8;
-$info: #00cbff;
-$text: #e2e2e2;
-$link-hover: $text;
+$header-sizes: env.$header-sizes;
 
-$input-color: $text;
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: inherit;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+}
 
-$navbar-item-img-max-height: 70;
-$navbar-padding-horizontal: 10;
-$navbar-box-shadow-color: $text;
+h1,
+h2,
+h3 {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+}
 
-$footer-padding: 1;
+a {
+  text-decoration: none;
+}
 
-$table-cell-heading-color: $scheme-main;
-$table-row-hover-background-color: $dark;
+li {
+  list-style: none;
+}
 
-$menu-item-hover-color: $text;
-$menu-item-radius: 3;
-$menu-item-hover-background-color: $grey-darker;
-$menu-item-active-color: $text;
-$menu-item-active-background-color: rgba(20,20,20, 0);
-$menu-list-link-padding: 0.2em;
-$menu-nested-list-margin: 0.5em;
+body {
+  background: sentro.token-get('surface-dark');
+  color: sentro.token-get('surface-ink');
+}
 
-$title-color: $text;
-$content-heading-color: $text;
-
-$table-color: $text;
-$table-head-cell-color: $primary;
-$table-head-background-color: $white;
-
-$dropdown-disabled-opacity: 1;
-$dropdown-item-hover-color: $white;
-$dropdown-content-background-color: $grey-darker;
-$dropdown-item-hover-background-color: $grey-dark;
-$dropdown-item-active-color: $grey-dark;
-$dropdown-item-active-background-color: $grey-dark;
-
-
-$sidebar-background: $info;
-$sidebar-widt: 3000px;
-
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
-$colors: mergeColorMaps(
-  (
-    'white': (
-      $white,
-      $black,
-    ),
-    'black': (
-      $black,
-      $white,
-    ),
-    'light': (
-      $light,
-      $light-invert,
-    ),
-    'dark': (
-      $dark,
-      $dark-invert,
-    ),
-    'primary': (
-      $primary,
-      $primary-invert,
-      $primary-light,
-      $primary-dark,
-    ),
-    'link': (
-      $link,
-      $link-invert,
-      $link-light,
-      $link-dark,
-    ),
-    'info': (
-      $info,
-      $info-invert,
-      $info-light,
-      $info-dark,
-    ),
-    'success': (
-      $success,
-      $success-invert,
-      $success-light,
-      $success-dark,
-    ),
-    'warning': (
-      $warning,
-      $warning-invert,
-      $warning-light,
-      $warning-dark,
-    ),
-    'danger': (
-      $danger,
-      $danger-invert,
-      $danger-light,
-      $danger-dark,
-    ),
-  ),
-  $custom-colors
-);
-
-$link: #ffffff;
-$b-navbar-height: 10;
-
-// Import Bulma and Buefy styles
-@import '~bulma';
-@import '~buefy/src/scss/buefy';
+.content-wrap {
+  width: calc(100% - 30px);
+  max-width: 1077px;
+  margin: 0 auto;
+  padding: 25px 0;
+}
