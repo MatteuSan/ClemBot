@@ -1,83 +1,21 @@
 <template>
   <div>
-    <nuxt-link :to="{ path: '/' }">
-      <img
-        id="main-logo"
-        class="mx-3 mt-3"
-        src="/ClemBotLogo.svg"
-        alt="ClemBot"
-        width="7%"
-      />
-    </nuxt-link>
-    <b-navbar id="splash-card" transparent shadow class="is-fixed-top mb-4">
-      <template #start>
-        <b-navbar-item
-          id="nav"
-          class="is-spaced is-tab"
-          tag="nuxt-link"
-          :to="{ path: '/wiki/intro' }"
-        >
-          <b-icon icon="script" class="mr-1" size="is-small" /><b> Wiki </b>
-        </b-navbar-item>
-        <b-navbar-item
-          id="nav"
-          class="is-spaced is-tab"
-          tag="nuxt-link"
-          :to="{ path: '/status' }"
-        >
-          <b-icon icon="heart-cog-outline" class="mr-1" size="is-small" />
-          <b>Status</b>
-        </b-navbar-item>
-        <b-navbar-item
-          id="nav"
-          class="is-spaced is-tab"
-          tag="nuxt-link"
-          :to="{ path: '/support' }"
-        >
-          <b-icon icon="patreon" class="mr-1" size="is-small" />
-          <b>Support</b>
-        </b-navbar-item>
-      </template>
-      <template #end>
-        <div id="socials">
-          <b-navbar-item v-if="!$auth.loggedIn">
-            <b-button @click="login" icon-left="login" class="is-primary">
-              <b>Login With Discord</b>
-            </b-button>
-          </b-navbar-item>
-          <GuildDropdown v-else side="is-right" />
-          <UserDisplay v-if="$auth.loggedIn" class="ml-3 mr-1" />
-          <b-navbar-item target="_blank" href="https://discord.gg/mhrVuyh">
-            <b-icon id="tray-icons" icon="discord"> </b-icon>
-          </b-navbar-item>
-          <b-navbar-item
-            id="tray-icons"
-            target="_blank"
-            href="https://github.com/ClemBotProject/ClemBot"
-          >
-            <b-icon icon="github"> </b-icon>
-          </b-navbar-item>
-        </div>
-      </template>
-    </b-navbar>
-    <section class="hero">
+    <CLMHeader />
+    <main>
       <nuxt v-if="!$slots.default" />
       <slot />
-    </section>
-    <Footer />
+    </main>
+    <CLMFooter />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import CLMHeader from '~/components/global/CLMHeader.vue'
+import CLMFooter from '~/components/global/CLMFooter.vue'
 
-export default Vue.extend({
-  methods: {
-    async login() {
-      await this.$auth.loginWith('discord')
-    },
-  },
-})
+export default {
+  components: { CLMFooter, CLMHeader },
+}
 </script>
 
 <style scoped lang="scss">

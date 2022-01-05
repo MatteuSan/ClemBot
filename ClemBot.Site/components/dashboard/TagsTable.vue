@@ -8,12 +8,12 @@
     :data="data"
   >
     <b-table-column sortable searchable field="name" label="Name">
-      <template v-slot="props">
+      <template #default="props">
         {{ props.row.name }}
       </template>
     </b-table-column>
     <b-table-column sortable searchable field="userName" label="Owner">
-      <template v-slot="props">
+      <template #default="props">
         {{ props.row.userName }}
       </template>
     </b-table-column>
@@ -24,14 +24,14 @@
       field="useCount"
       label="Uses"
     >
-      <template v-slot="props">
+      <template #default="props">
         <b-tag type="is-dark" size="is-medium">
           {{ props.row.useCount }}
         </b-tag>
       </template>
     </b-table-column>
     <b-table-column class="my-class" field="content" label="Content">
-      <template v-slot="props">
+      <template #default="props">
         <div class="box has-background-black has-shadow">
           {{ props.row.content }}
         </div>
@@ -50,7 +50,7 @@ export default Vue.extend({
     },
   },
   data() {
-    let pageSize = 20
+    const pageSize = 20
     return {
       pageSize,
     }

@@ -1,11 +1,11 @@
 <template>
   <div class="sidebar-page">
     <section class="sidebar-layout">
-      <b-sidebar :fullheight="true" position="static" open type="is-dark" />
-      <b-sidebar :fullheight="true" open type="is-dark">
-        <nuxt-link :to="{ path: '/' }">
+      <BSideBar :fullheight="true" position="static" open type="is-dark" />
+      <BSideBar :fullheight="true" open type="is-dark">
+        <NuxtLink :to="{ path: '/' }">
           <img class="px-6 py-3" src="/ClemBotLogo.svg" alt="ClemBot" />
-        </nuxt-link>
+        </NuxtLink>
         <div class="box mx-3 my-3 has-background-darkest">
           <b-menu class="is-custom-mobile mx-4">
             <div class="is-vcentered"></div>
@@ -25,7 +25,7 @@
             </b-menu-list>
           </b-menu>
         </div>
-      </b-sidebar>
+      </BSideBar>
       <div class="column">
         <section class="hero">
           <div class="hero-body"></div>
@@ -46,7 +46,7 @@
             target="_blank"
             href="https://github.com/ClemBotProject/ClemBot"
           >
-            <b-icon icon="github"> </b-icon>
+            <b-icon icon="github"></b-icon>
           </b-navbar-item>
         </div>
       </template>
@@ -57,10 +57,14 @@
 <script>
 import Vue from 'vue'
 import DefaultLayout from '~/layouts/default.vue'
-import { titleCase } from '@/services/Utilities'
+import GuildDropdown from '~/components/GuildDropdown'
+import UserDisplay from '~/components/UserDisplay'
 
 export default Vue.extend({
   components: {
+    UserDisplay,
+    GuildDropdown,
+    // eslint-disable-next-line vue/no-unused-components
     DefaultLayout,
   },
   middleware: 'DashboardAuthCheck',

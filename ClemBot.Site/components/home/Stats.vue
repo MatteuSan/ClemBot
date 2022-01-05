@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-card has-background-dark has-shadow">
+  <div class="stats-card">
     <h2>📊 ClemBot Stats</h2>
     <p>
       Currently running <b>{{ guildsCount }}</b> servers...
@@ -16,12 +16,28 @@
 <script lang="ts">
 export default {
   name: 'Stats',
-  data(): Record<string, string | Record<string, string>> {
+  data(): Record<string, string | Record<string, any> | any> {
     return {
       guildsCount: 'Unknown',
       usersCount: 'Unknown',
       commandsCount: 'Unknown',
     }
+  },
+  async fetch() {
+    // @ts-ignore
+    const stats = await this.$api.public.getGlobalStats()
+
+    if (stats === null) {
+      console.log('Getting public guild stats failed')
+      return
+    }
+
+    // @ts-ignore
+    this.guildsCount = stats.guilds ?? 'many'
+    // @ts-ignore
+    this.usersCount = stats.users ?? 'all the'
+    // @ts-ignore
+    this.commandsCount = stats.commands ?? 'tons of'
   },
 }
 </script>

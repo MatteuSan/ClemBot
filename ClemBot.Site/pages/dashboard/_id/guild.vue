@@ -14,7 +14,7 @@
             <p class="card-header-title has-text-white">Command Prefix</p>
           </div>
           <p class="card-header-title has-text-white">
-            <span class="tag is-black is-medium">{{ this.guildPrefix }}</span>
+            <span class="tag is-black is-medium">{{ guildPrefix }}</span>
           </p>
           <b-field v-if="canSetPrefix" class="mx-4 mb-3 has-text-white">
             <template #label>
@@ -22,15 +22,15 @@
             </template>
             <b-input
               id="white-text"
+              v-model="inputPrefix"
               class="has-text-white"
               autocomplete="off"
-              v-model="inputPrefix"
             ></b-input>
           </b-field>
           <div
             v-if="inputPrefix != ''"
-            @click="customPrefixSaveClick"
             class="card-content columns is-vcentered"
+            @click="customPrefixSaveClick"
           >
             <div class="column">
               <b-button class="has-text-white">Save</b-button>
@@ -45,7 +45,7 @@
           </div>
           <div class="box has-background-black">
             <div class="content is-black my-2">
-              {{ this.guildWelcomeMessage }}
+              {{ guildWelcomeMessage }}
             </div>
           </div>
           <b-field v-if="canSetWelcomeMessage" class="mx-3 mb-3 has-text-white">
@@ -54,17 +54,17 @@
             </template>
             <b-input
               id="white-text"
+              v-model="inputWelcomeMessage"
               type="textarea"
               class="has-text-white"
               maxlength="2000"
               autocomplete="off"
-              v-model="inputWelcomeMessage"
             ></b-input>
           </b-field>
           <div
             v-if="inputWelcomeMessage != ''"
-            @click="customWelcomeMessageSaveClick"
             class="card-content columns is-vcentered"
+            @click="customWelcomeMessageSaveClick"
           >
             <div class="column">
               <b-button class="has-text-white">Save</b-button>
@@ -81,10 +81,10 @@
             <div class="content is-black my-2">
               <b-field>
                 <b-switch
-                  :disabled="!canSeeGuildConfig"
                   v-model="canEmbedLinks"
-                  @input="embedMessageSwitch"
+                  :disabled="!canSeeGuildConfig"
                   type="is-success"
+                  @input="embedMessageSwitch"
                 >
                   Allow message link embeds</b-switch
                 >
@@ -106,12 +106,12 @@ export default Vue.extend({
   components: { dashboard },
   layout: 'dashboard',
   data() {
-    let guildId: string = ''
-    let guildPrefix: string = ''
-    let inputPrefix: string = ''
-    let guildWelcomeMessage: string = ''
-    let inputWelcomeMessage: string = ''
-    let canEmbedLinks: boolean = false
+    const guildId: string = ''
+    const guildPrefix: string = ''
+    const inputPrefix: string = ''
+    const guildWelcomeMessage: string = ''
+    const inputWelcomeMessage: string = ''
+    const canEmbedLinks: boolean = false
 
     return {
       inputPrefix,
@@ -123,34 +123,8 @@ export default Vue.extend({
     }
   },
 
-  computed: {
-    canSeeWelcomeMessage: function (): boolean {
-      return this.hasClaim(BotAuthClaims.welcomeMessageView)
-    },
-
-    canSetWelcomeMessage: function (): boolean {
-      return this.hasClaim(BotAuthClaims.welcomeMessageModify)
-    },
-
-    canSetPrefix: function (): boolean {
-      return this.hasClaim(BotAuthClaims.customPrefixSet)
-    },
-
-    canSeeGuildConfig: function (): boolean {
-      return this.hasClaim(BotAuthClaims.guildSettingsView)
-    },
-
-    canEditGuildConfig: function (): boolean {
-      return this.hasClaim(BotAuthClaims.guildSettingsEdit)
-    },
-  },
-
-  mounted() {
-    this.guildId = this.$route.params.id
-  },
-
   async fetch() {
-    let guildId = this.$route.params.id
+    const guildId = this.$route.params.id
     try {
       this.guildPrefix =
         (await this.$api.customPrefix.getCustomPrefix(guildId)) ??
@@ -161,7 +135,7 @@ export default Vue.extend({
     }
 
     try {
-      if (this.canSeeWelcomeMessage){
+      if (this.canSeeWelcomeMessage) {
         this.guildWelcomeMessage =
           (await this.$api.welcomeMessage.getWelcomeMessage(guildId)) ??
           'No Welcome Message set'
@@ -172,13 +146,39 @@ export default Vue.extend({
     }
 
     try {
-      if (this.canSeeGuildConfig){
+      if (this.canSeeGuildConfig) {
         this.canEmbedLinks =
           (await this.$api.guildSettings.getCanEmbedLink(guildId)) ?? false
       }
     } catch (e) {
       console.log(e)
     }
+  },
+
+  computed: {
+    canSeeWelcomeMessage(): boolean {
+      return this.hasClaim(BotAuthClaims.welcomeMessageView)
+    },
+
+    canSetWelcomeMessage(): boolean {
+      return this.hasClaim(BotAuthClaims.welcomeMessageModify)
+    },
+
+    canSetPrefix(): boolean {
+      return this.hasClaim(BotAuthClaims.customPrefixSet)
+    },
+
+    canSeeGuildConfig(): boolean {
+      return this.hasClaim(BotAuthClaims.guildSettingsView)
+    },
+
+    canEditGuildConfig(): boolean {
+      return this.hasClaim(BotAuthClaims.guildSettingsEdit)
+    },
+  },
+
+  mounted() {
+    this.guildId = this.$route.params.id
   },
 
   methods: {
@@ -204,15 +204,20 @@ export default Vue.extend({
     },
 
     async embedMessageSwitch() {
-      await this.$api.guildSettings.setCanEmbedLink(this.guildId, this.canEmbedLinks)
-      this.canEmbedLinks = await this.$api.guildSettings.getCanEmbedLink(this.guildId)
+      await this.$api.guildSettings.setCanEmbedLink(
+        this.guildId,
+        this.canEmbedLinks
+      )
+      this.canEmbedLinks = await this.$api.guildSettings.getCanEmbedLink(
+        this.guildId
+      )
     },
 
     hasClaim(claim: BotAuthClaims): boolean {
       // @ts-ignore
-      let guildId: string = this.$route.params.id
+      const guildId: string = this.$route.params.id
       // @ts-ignore
-      let activeGuild = this.$auth.user?.guilds.filter(
+      const activeGuild = this.$auth.user?.guilds.filter(
         (x: { id: string }) => x.id == guildId
       )[0]
       return activeGuild.claims.find((x: string) => x === claim)

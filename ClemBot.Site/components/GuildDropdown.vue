@@ -21,7 +21,7 @@
         icon-right="menu-down"
       >
         <div class="columns is-vcentered">
-          <div v-if="showicon" class="column is-3">
+          <div v-if="showIcon" class="column is-3">
             <b-image
               class="is-32x32"
               rounded
@@ -54,11 +54,11 @@
               >
               </b-image>
               <b-icon
-                class="pl-2 py-1 my-1"
                 v-else-if="guild.isHovered && guild.isAdded"
+                class="pl-2 py-1 my-1"
                 icon="wrench"
               />
-              <b-icon class="pl-2 py-1 my-1" v-else icon="plus" />
+              <b-icon v-else class="pl-2 py-1 my-1" icon="plus" />
             </div>
             <div class="column has-text-justified">
               <b> {{ guild.name }} </b>
@@ -88,11 +88,11 @@
               >
               </b-image>
               <b-icon
-                class="pl-2 py-1 my-1"
                 v-else-if="guild.isHovered && guild.isAdded"
+                class="pl-2 py-1 my-1"
                 icon="wrench"
               />
-              <b-icon class="pl-2 py-1 my-1" v-else icon="plus" />
+              <b-icon v-else class="pl-2 py-1 my-1" icon="plus" />
             </div>
             <div class="column has-text-justified is-three-quarters">
               <b> {{ guild.name }} </b>
@@ -105,21 +105,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { Guild } from 'services/Models/Guild'
 
-export default Vue.extend({
+export default {
   props: {
-    side: String,
-    showicon: {
-      type: Boolean,
+    side: {
+      default: null,
+      type: String,
+    },
+    showIcon: {
       default: true,
+      type: Boolean,
     },
   },
   data() {
     const userGuildsConfig: Array<Guild> = []
     const userGuildsAdd: Array<Guild> = []
-    let activeGuild: Guild | null = null
+    const activeGuild: Guild | null = null
     return {
       userGuildsConfig,
       userGuildsAdd,
@@ -127,28 +129,35 @@ export default Vue.extend({
     }
   },
   mounted() {
+    // @ts-ignore
     if (this.$auth.loggedIn && this.$auth.strategy.name === 'local') {
-      let userGuilds = (this.$auth.user?.guilds as Array<Guild>)
+      // @ts-ignore
+      const userGuilds = (this.$auth.user?.guilds as Array<Guild>)
         .slice()
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((g) => ({ ...g, isHovered: false } as Guild))
 
+      // @ts-ignore
       userGuilds.forEach((x) => this.$set(x, 'isHovered', false))
 
+      // @ts-ignore
       this.userGuildsConfig = userGuilds.filter((x) => x.isAdded)
+      // @ts-ignore
       this.userGuildsAdd = userGuilds.filter(
         (x) =>
           !x.isAdded &&
-          ((x.permissions & 0x8) == 0x8 || (x.permissions & 0x02) == 0x02)
+          ((x.permissions & 0x8) === 0x8 || (x.permissions & 0x02) === 0x02)
       )
 
+      // @ts-ignore
       if (this.$route.params.id !== undefined) {
-        //@ts-ignore this fails the type checker for some reason but it works fine
+        // @ts-ignore
         this.activeGuild =
+          // @ts-ignore
           this.userGuildsConfig.find((x) => x.id === this.$route.params.id) ??
           null
       }
     }
   },
-})
+}
 </script>

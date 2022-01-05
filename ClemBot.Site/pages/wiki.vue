@@ -1,5 +1,5 @@
 <template>
-  <section class="section is-medium" id="wiki">
+  <section id="wiki" class="section is-medium">
     <div class="columns">
       <div class="column is-2">
         <b-menu id="wiki-menu">
